@@ -2,8 +2,8 @@
 a{color:#0b57d0;text-decoration:none}a:hover{text-decoration:underline}
 .container{max-width:900px;margin:0 auto;padding:0 16px}
 .hero{background:linear-gradient(#f3f4f6,#fff);border-bottom:1px solid #e5e7eb;padding:24px 0 20px}
-.hero-inner{display:flex;gap:16px;align-items:center}
-.logo{width:72px;height:auto;border-radius:12px;border:1px solid #e5e7eb;background:#fff;object-fit:contain}
+.hero-inner{display:flex;gap:14px;align-items:center}
+.logo{width:clamp(56px,9vw,96px);height:auto;border-radius:12px;border:1px solid #e5e7eb;background:#fff;object-fit:contain;box-shadow:none}
 .hero h1{margin:0;font-size:32px;line-height:1.1}
 .sub{margin:6px 0 10px;color:#555}
 .stats{color:#444;font-size:14px}

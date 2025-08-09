@@ -75,26 +75,37 @@
         .map(m => parseInt(String(m.value).replace(/[^0-9]/g,'')))
         .filter(n => !Number.isNaN(n))
         .reduce((a,b)=>a+b,0);
-      statsEl.innerHTML = `<span><strong>${ENTRIES.length}</strong> entries</span> · <span><strong>${chips}</strong> chip shots logged</span>`;
+      statsEl.innerHTML = '<span><strong>' + ENTRIES.length + '</strong> entries</span> · <span><strong>' + chips + '</strong> chip shots logged</span>';
 
       list.innerHTML = '';
       filtered.forEach(e => {
         const li = document.createElement('li');
         li.className = 'entry';
-        li.innerHTML = `
-          <div class="meta">
-            <span class="date">${e.date}</span>
-            ${e.day ? `<span class="pill">${e.day}</span>` : ''}
-            <span class="pill">${e.category}</span>
-          </div>
-          <h3>${e.title}</h3>
-          <p>${e.summary}</p>
-          ${e.metrics && e.metrics.length ? `<div class="metrics">${${e.metrics.map(m => `<span class="metric"><strong>${m.label}:</strong> ${m.value}</span>`).join('')}}
-          </div>` : ''}
-          ${e.tags && e.tags.length ? `<div class="tags">${${e.tags.map(t => `<span>#${t}</span>`).join('')}}
-          </div>` : ''}
-          ${e.mediaUrl ? `<p><a class="link" href="${e.mediaUrl}" target="_blank" rel="noreferrer">Related post/video</a></p>` : ''}
-        `;
+
+        const metricsHTML = (e.metrics && e.metrics.length)
+          ? '<div class="metrics">' + e.metrics.map(m => '<span class="metric"><strong>' + m.label + ':</strong> ' + m.value + '</span>').join('') + '</div>'
+          : '';
+
+        const tagsHTML = (e.tags && e.tags.length)
+          ? '<div class="tags">' + e.tags.map(t => '<span>#' + t + '</span>').join('') + '</div>'
+          : '';
+
+        const mediaHTML = e.mediaUrl
+          ? '<p><a class="link" href="' + e.mediaUrl + '" target="_blank" rel="noreferrer">Related post/video</a></p>'
+          : '';
+
+        li.innerHTML = ''
+          + '<div class="meta">'
+            + '<span class="date">' + e.date + '</span>'
+            + (e.day ? '<span class="pill">' + e.day + '</span>' : '')
+            + '<span class="pill">' + e.category + '</span>'
+          + '</div>'
+          + '<h3>' + e.title + '</h3>'
+          + '<p>' + e.summary + '</p>'
+          + metricsHTML
+          + tagsHTML
+          + mediaHTML;
+
         list.appendChild(li);
       });
     }

@@ -1,6 +1,5 @@
 // Scratch Quest timeline entries
 const ENTRIES = [
-  // July foundation
   {
     date: "Jul 8, 2025",
     title: "Bought putter & began putting practice",
@@ -22,7 +21,6 @@ const ENTRIES = [
     category: "Content",
     tags: ["learning","research"]
   },
-  // August
   {
     date: "Aug 8, 2025",
     title: "First wedge lesson & wedge purchase",
@@ -30,7 +28,6 @@ const ENTRIES = [
     category: "Coaching",
     tags: ["wedge","lesson"]
   },
-  // Your earlier practice log
   {
     date: "Aug 09, 2025",
     day: "Pre–Day 1",
@@ -55,7 +52,6 @@ const ENTRIES = [
     category: "Fitness",
     tags: ["mobility","strength"]
   },
-  // Day 1 placeholder
   {
     date: "Soon",
     day: "Day 1",
