@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journey to Scratch</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Transparent timeline of my path to scratch golf. Practice, coaching, fitness, gear, and milestones." />
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <h1>Journey to Scratch</h1>
+      <p class="sub">A simple, public log of my path to a 0 handicap. Updated as I go.</p>
+      <div class="stats" id="stats"></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="controls">
+      <input id="search" type="search" placeholder="Search entries or tags…" />
+      <select id="filter">
+        <option value="All">All</option>
+        <option>Practice</option>
+        <option>Coaching</option>
+        <option>Gear</option>
+        <option>Fitness</option>
+        <option>Content</option>
+        <option>Milestone</option>
+      </select>
+    </div>
+
+    <ul class="timeline" id="timeline"></ul>
+
+    <footer class="footer">
+      <p>Built for full transparency. When I buy my fitted set, the next entry will be <strong>Day 1</strong>.</p>
+      <p><small>Tip: To add entries, open <code>data.js</code> and append to the <code>ENTRIES</code> list.</small></p>
+    </footer>
+  </main>
+
+  <script src="data.js"></script>
+  <script>
+    // --- Simple Timeline Renderer ---
+    const list = document.getElementById('timeline');
+    const search = document.getElementById('search');
+    const filter = document.getElementById('filter');
+    const statsEl = document.getElementById('stats');
+
+    function render() {
+      const q = (search.value || '').toLowerCase();
+      const cat = filter.value || 'All';
+      const filtered = ENTRIES.filter(e => {
+        const hay = (e.title + ' ' + e.summary + ' ' + (e.tags||[]).join(' ')).toLowerCase();
+        const matchesQ = !q || hay.includes(q);
+        const matchesCat = cat === 'All' || e.category === cat;
+        return matchesQ && matchesCat;
+      });
+
+      // Stats (entries + chip shots)
+      const chips = ENTRIES.flatMap(e => e.metrics||[])
+        .filter(m => (m.label || '').toLowerCase().includes('chip'))
+        .map(m => parseInt(String(m.value).replace(/[^0-9]/g,'')))
+        .filter(n => !Number.isNaN(n))
+        .reduce((a,b)=>a+b,0);
+      statsEl.innerHTML = `<span><strong>${ENTRIES.length}</strong> entries</span> · <span><strong>${chips}</strong> chip shots logged</span>`;
+
+      list.innerHTML = '';
+      filtered.forEach(e => {
+        const li = document.createElement('li');
+        li.className = 'entry';
+        li.innerHTML = `
+          <div class="meta">
+            <span class="date">${e.date}</span>
+            ${e.day ? `<span class="pill">${e.day}</span>` : ''}
+            <span class="pill">${e.category}</span>
+          </div>
+          <h3>${e.title}</h3>
+          <p>${e.summary}</p>
+          ${e.metrics && e.metrics.length ? `<div class="metrics">${
+            e.metrics.map(m => `<span class="metric"><strong>${m.label}:</strong> ${m.value}</span>`).join('')
+          }</div>` : ''}
+          ${e.tags && e.tags.length ? `<div class="tags">${
+            e.tags.map(t => `<span>#${t}</span>`).join('')
+          }</div>` : ''}
+          ${e.mediaUrl ? `<p><a class="link" href="${e.mediaUrl}" target="_blank" rel="noreferrer">Related post/video</a></p>` : ''}
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    search.addEventListener('input', render);
+    filter.addEventListener('change', render);
+    render();
+  </script>
+</body>
+</html>
