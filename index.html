@@ -3,20 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Journey to Scratch</title>
+  <title>Scratch Quest</title>
   <link rel="stylesheet" href="styles.css" />
-  <meta name="description" content="Transparent timeline of my path to scratch golf. Practice, coaching, fitness, gear, and milestones." />
+  <meta name="description" content="Scratch Quest — transparent timeline of my path to scratch golf." />
 </head>
 <body>
   <header class="hero">
-    <div class="container">
-      <h1>Journey to Scratch</h1>
-      <p class="sub">A simple, public log of my path to a 0 handicap. Updated as I go.</p>
-      <div class="stats" id="stats"></div>
+    <div class="container hero-inner">
+      <img src="logo.jpg" alt="Scratch Quest logo" class="logo" />
+      <div>
+        <h1>Scratch Quest</h1>
+        <p class="sub">A simple, public log of my path to a 0 handicap. Updated as I go.</p>
+        <div class="stats" id="stats"></div>
+      </div>
     </div>
   </header>
 
   <main class="container">
+    <section class="bio">
+      <h2>About</h2>
+      <p>
+        I’m a 34-year-old father with a demanding corporate career, taking up golf seriously for the first time.
+        I grew up in the Midwest and played a bit as a kid, but never took lessons and only got out a few times a year.
+        My goal: go from complete novice to scratch golfer in <strong>500 days</strong>.
+        Day 1 will begin after I finish my first set of lessons and get my fitted clubs. Until then,
+        I’m building the foundation — mobility, knowledge, and short-game skills — so I can hit the ground running.
+      </p>
+    </section>
+
     <div class="controls">
       <input id="search" type="search" placeholder="Search entries or tags…" />
       <select id="filter">
@@ -33,14 +47,13 @@
     <ul class="timeline" id="timeline"></ul>
 
     <footer class="footer">
-      <p>Built for full transparency. When I buy my fitted set, the next entry will be <strong>Day 1</strong>.</p>
-      <p><small>Tip: To add entries, open <code>data.js</code> and append to the <code>ENTRIES</code> list.</small></p>
+      <p>When I buy my fitted set, the next entry will be <strong>Day 1</strong>.</p>
+      <p><small>To add entries, open <code>data.js</code> and append to <code>ENTRIES</code>, then Commit & Push in GitHub Desktop.</small></p>
     </footer>
   </main>
 
   <script src="data.js"></script>
   <script>
-    // --- Simple Timeline Renderer ---
     const list = document.getElementById('timeline');
     const search = document.getElementById('search');
     const filter = document.getElementById('filter');
@@ -56,7 +69,7 @@
         return matchesQ && matchesCat;
       });
 
-      // Stats (entries + chip shots)
+      // Stats
       const chips = ENTRIES.flatMap(e => e.metrics||[])
         .filter(m => (m.label || '').toLowerCase().includes('chip'))
         .map(m => parseInt(String(m.value).replace(/[^0-9]/g,'')))
@@ -76,12 +89,10 @@
           </div>
           <h3>${e.title}</h3>
           <p>${e.summary}</p>
-          ${e.metrics && e.metrics.length ? `<div class="metrics">${
-            e.metrics.map(m => `<span class="metric"><strong>${m.label}:</strong> ${m.value}</span>`).join('')
-          }</div>` : ''}
-          ${e.tags && e.tags.length ? `<div class="tags">${
-            e.tags.map(t => `<span>#${t}</span>`).join('')
-          }</div>` : ''}
+          ${e.metrics && e.metrics.length ? `<div class="metrics">${${e.metrics.map(m => `<span class="metric"><strong>${m.label}:</strong> ${m.value}</span>`).join('')}}
+          </div>` : ''}
+          ${e.tags && e.tags.length ? `<div class="tags">${${e.tags.map(t => `<span>#${t}</span>`).join('')}}
+          </div>` : ''}
           ${e.mediaUrl ? `<p><a class="link" href="${e.mediaUrl}" target="_blank" rel="noreferrer">Related post/video</a></p>` : ''}
         `;
         list.appendChild(li);
